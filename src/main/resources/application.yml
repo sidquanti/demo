@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 1000
+      idle-timeout: 300000
+      jdbc-url: jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+      maximum-pool-size: 10
+      minimum-idle: 1
+      username: root
+      password: root
+      pool-name: demo-app-connection-pool
+    test-on-borrow: true
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 30
+        dialect: org.hibernate.dialect.MySQL5Dialect
