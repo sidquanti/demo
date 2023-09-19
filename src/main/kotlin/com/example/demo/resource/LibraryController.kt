@@ -1,5 +1,6 @@
 package com.example.demo.resource
 
+import com.example.demo.auth.annotation.Secured
 import com.example.demo.data.Library
 import com.example.demo.service.LibraryService
 import org.slf4j.LoggerFactory
@@ -17,10 +18,19 @@ class LibraryController {
     @Autowired
     lateinit var libraryService: LibraryService
 
-    @GetMapping
-    fun getAllLibraries(): List<Library> {
-        log.info("getAllLibraries called")
-        val result = libraryService.getAllLibraries()
+    @GetMapping("/users")
+    @Secured
+    fun getAllLibrariesOfUser(@RequestAttribute("email") email : String): List<Library> {
+        log.info("getMyLibraries called for $email")
+        val result = libraryService.getAllLibrariesOfUser(email)
+        log.info("result count ${result.size}")
+        return result
+    }
+
+    @GetMapping("/mobile/{mobile}")
+    fun getAllLibrariesByMobileNumber(@PathVariable("mobile") mobile: String): List<Library> {
+        log.info("getAllLibrariesByMobileNumber called for mobile $mobile")
+        val result = libraryService.getAllLibrariesByMobileNumber(mobile)
         log.info("result count ${result.size}")
         return result
     }
@@ -40,9 +50,11 @@ class LibraryController {
     }
 
     @PostMapping
-    fun createLibrary(@RequestBody library: Library) {
+    @Secured
+    fun createLibrary(@RequestBody library: Library,
+                      @RequestAttribute("email") email : String) {
         log.info("createLibrary called")
-        libraryService.createLibrary(library)
+        libraryService.createLibrary(library, email)
     }
 
 }

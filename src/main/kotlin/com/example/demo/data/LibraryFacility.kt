@@ -1,5 +1,6 @@
 package com.example.demo.data
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -12,11 +13,14 @@ data class LibraryFacility(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @Column(name = "library_id")
-    var libraryId: Long?,
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "library_id")
+    var libraryId: Library,
 
-    @Column(name = "facility_id")
-    var facilityId: Long?,
+    @ManyToOne
+    @JoinColumn(name = "facility_id")
+    var facility: Facility,
 
     @Column(name = "included")
     var included: Boolean?,

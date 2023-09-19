@@ -17,13 +17,22 @@ repositories {
 }
 
 extra["mysqlVersion"] = "8.0.16"
+extra["jwtVersion"] = "3.14.0"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.4")
+
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("com.auth0:java-jwt:${property("jwtVersion")}")
+
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+	implementation("com.squareup.okhttp3:okhttp:4.9.1")
+	implementation("com.google.code.gson:gson:2.8.8")
 
 	implementation("mysql:mysql-connector-java:${property("mysqlVersion")}")
 

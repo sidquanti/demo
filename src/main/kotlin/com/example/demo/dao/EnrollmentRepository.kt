@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository
 @Repository
 interface EnrollmentRepository : JpaRepository<Enrollment, Long> {
 
-    @Query("SELECT e FROM Enrollment e where (:libraryId = null OR e.libraryId = :libraryId)")
-    fun getAll(@Param("libraryId") libraryId: Long?): List<Enrollment>
+    @Query("SELECT e FROM Enrollment e where (:libraryId = null OR e.libraryId = :libraryId) order by endDate desc")
+    fun getAll(@Param("libraryId") libraryId: Long): List<Enrollment>
+
+    @Query("SELECT e FROM Enrollment e where e.userId = :userId order by endDate desc")
+    fun getAllByUserId(@Param("userId") userId: Long): List<Enrollment>
 
 }

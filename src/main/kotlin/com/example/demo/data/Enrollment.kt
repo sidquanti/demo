@@ -16,8 +16,8 @@ data class Enrollment(
     @Column(name = "library_id")
     var libraryId: Long?,
 
-    @Column(name = "student_id")
-    var studentId: Long?,
+    @Column(name = "user_id")
+    var userId: Long?,
 
     @Column(name = "slot_id")
     var slotId: Long?,
@@ -64,7 +64,10 @@ data class Enrollment(
     var mobile: String?,
 
     @Transient
-    var email: String?
+    var email: String?,
+
+    @Transient
+    var libraryName: String?,
 
 
 

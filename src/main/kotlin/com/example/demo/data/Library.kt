@@ -3,6 +3,7 @@ package com.example.demo.data
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 import javax.persistence.*
+import kotlin.jvm.Transient
 
 @Entity
 @Table(name = "library")
@@ -55,6 +56,12 @@ data class Library(
     var createdBy: String?,
 
     @Column(name = "updated_by")
-    var updatedBy: String?
+    var updatedBy: String?,
+
+    @Column(name = "user_id")
+    var userId: Long?,
+
+    @OneToMany(cascade= [CascadeType.ALL], mappedBy = "libraryId", fetch = FetchType.EAGER)
+    val libraryFacilities : MutableList<LibraryFacility> = mutableListOf(),
 
 )

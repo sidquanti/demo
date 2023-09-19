@@ -9,11 +9,14 @@ import org.springframework.stereotype.Repository
 @Repository
 interface LibraryRepository : JpaRepository<Library, Long> {
 
-    @Query("SELECT l FROM Library l")
-    fun getAll(): List<Library>
-
     @Query("SELECT l FROM Library l where l.cityId = :cityId")
     fun getAllLibrariesByCityId(@Param("cityId") cityId: Long): List<Library>
+
+    @Query("SELECT l FROM Library l where l.mobile = :mobile")
+    fun getAllLibrariesByMobileNumber(@Param("mobile") mobile: String): List<Library>
+
+    @Query("SELECT l FROM Library l where l.userId = :userId or l.email = :email")
+    fun getAllLibrariesByUserIdOrEmail(@Param("userId") userId: Long, @Param("email") email: String): List<Library>
 
 
 }

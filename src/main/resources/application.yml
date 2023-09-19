@@ -23,3 +23,22 @@ spring:
         jdbc:
           batch_size: 30
         dialect: org.hibernate.dialect.MySQL5Dialect
+app:
+  jwt:
+    issuer: studyvenue.in
+    audience: sv
+    token:
+      expiry: 14
+    claim:
+      app: app
+      user: user
+      uid: uid
+      tenant: tenant
+      name: name
+      store: store
+      scopes: scopes
+  security:
+    key: sv@2023
+    enabled: true
+    jwt: false
+    header: false
