@@ -18,7 +18,7 @@ class CorsConfig : WebMvcConfigurer {
     // cors
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-            .allowedOrigins("http://localhost:3000", "http://localhost:8080") // Add your frontend URL here
+            .allowedOrigins("http://localhost:3000", "http://localhost:8080", "http://cricget.com", "http://cricget.com:3000", "http://cricget.com:8080") // Add your frontend URL here
             .allowedMethods("GET", "POST", "PUT", "DELETE")
     }
 
