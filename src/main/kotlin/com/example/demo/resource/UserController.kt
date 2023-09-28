@@ -2,6 +2,7 @@ package com.example.demo.resource
 
 import com.example.demo.auth.annotation.Secured
 import com.example.demo.data.User
+import com.example.demo.exception.RequestException
 import com.example.demo.service.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,6 +38,13 @@ class UserController {
     fun getUserByID(@PathVariable("id") id: Long): User {
         log.info("getUserByID called")
         return userService.getUserByID(id)
+    }
+
+    @PutMapping("/{id}")
+    fun updateUserByID(@PathVariable("id") id: Long, @RequestBody user: User) {
+        log.info("updateUserByID called for $id")
+        if (user.mobile.isNullOrEmpty()) throw RequestException("mobile is empty")
+        return userService.updateUserByID(id, user.mobile!!)
     }
 
     @PostMapping

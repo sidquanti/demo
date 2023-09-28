@@ -29,6 +29,13 @@ class UserService {
         return userRepository.getOne(id)
     }
 
+    @Transactional
+    fun updateUserByID(id: Long, mobile: String) {
+        log.info("updateUserByID called")
+        val user = getUserByID(id)
+        userRepository.save(user)
+    }
+
     fun getUserByEmail(email: String): User? {
         log.info("getUserByEmail called $email")
         return userRepository.getUserByEmail(email)

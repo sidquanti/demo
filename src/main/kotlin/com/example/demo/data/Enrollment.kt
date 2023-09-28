@@ -29,9 +29,6 @@ data class Enrollment(
     @Column(name = "exam_name")
     var examName: String?,
 
-    @Column(name = "total_capacity")
-    var totalCapacity: Int?,
-
     @Column(name = "remark")
     var remark: String?,
 
