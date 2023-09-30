@@ -76,7 +76,7 @@ class AuthService {
         if (user == null) {
             log.info("User ${response.email} is not found, registering user")
             user = userService.createUser(User(name = response.name, mobile = null , email = response.email,
-                createdOn = LocalDateTime.now(), student = true, library = true))
+                createdOn = LocalDateTime.now(), library = true))
         }
 
         return user
