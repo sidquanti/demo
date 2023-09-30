@@ -75,7 +75,8 @@ class AuthService {
         var user = userService.getUserByEmail(response.email)
         if (user == null) {
             log.info("User ${response.email} is not found, registering user")
-            user = userService.createUser(User(name = response.name, mobile = null , email = response.email, createdOn = LocalDateTime.now()))
+            user = userService.createUser(User(name = response.name, mobile = null , email = response.email,
+                createdOn = LocalDateTime.now(), student = true, library = true))
         }
 
         return user

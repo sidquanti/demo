@@ -82,9 +82,10 @@ class EnrollmentService {
         if(enrollment.userId == null){
             var user =  userService.getUserByEmail(enrollment.email!!)
             if (user == null){
-                enrollment.userId = userService.createUser(User(name = enrollment.name, mobile = enrollment.mobile,
-                    email = enrollment.email, student = true, createdOn = LocalDateTime.now())).id
+                user = userService.createUser(User(name = enrollment.name, mobile = enrollment.mobile,
+                    email = enrollment.email, student = true, createdOn = LocalDateTime.now()))
             }
+            enrollment.userId = user.id
         }
         // TODO add entry in payment table
 
