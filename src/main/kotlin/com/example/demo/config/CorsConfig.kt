@@ -20,7 +20,9 @@ class CorsConfig : WebMvcConfigurer {
         registry.addMapping("/**")
             .allowedOrigins("http://localhost:3000", "http://localhost:8080",
                 "https://cricget.com", "https://cricget.com:3000", "https://cricget.com:8080",
-                "http://cricget.com", "http://cricget.com:3000", "http://cricget.com:8080") // Add your frontend URL here
+                "http://cricget.com", "http://cricget.com:3000", "http://cricget.com:8080",
+                "https://studyvenue.in", "https://studyvenue.in:3000", "https://studyvenue.in:8080",
+                "http://studyvenue.in", "http://studyvenue.in:3000", "http://studyvenue.in:8080") // Add your frontend URL here
             .allowedMethods("GET", "POST", "PUT", "DELETE")
     }
 
