@@ -42,7 +42,7 @@ class EnrollmentController {
     }
 
     @PostMapping
-    @Secured
+    //@Secured
     fun createEnrollment(@RequestBody enrollment: Enrollment) {
         log.info("createEnrollment called")
         enrollmentService.createEnrollment(enrollment)

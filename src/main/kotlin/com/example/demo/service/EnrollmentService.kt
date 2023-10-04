@@ -7,7 +7,9 @@ import com.example.demo.exception.RequestException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.util.regex.Pattern
 
 @Service
 class EnrollmentService {
@@ -71,10 +73,13 @@ class EnrollmentService {
         return result
     }
 
+    @Transactional
     fun createEnrollment(enrollment: Enrollment) {
         log.info("createEnrollment called")
         if(enrollment.slotId == null && enrollment.libraryId == null)  throw RequestException("slotId or libraryId is mandatory")
         if(enrollment.userId == null && enrollment.email.isNullOrEmpty())  throw RequestException("studentId or email is mandatory")
+
+        if (!enrollment.email.isNullOrEmpty() && !isValidMail(enrollment.email!!)) throw RequestException("Email id not valid ${enrollment.email}")
 
         if(enrollment.libraryId == null){
             enrollment.libraryId = slotService.getSlotByID(enrollment.slotId!!).libraryId
@@ -84,12 +89,25 @@ class EnrollmentService {
             if (user == null){
                 user = userService.createUser(User(name = enrollment.name, mobile = enrollment.mobile,
                     email = enrollment.email, student = true, createdOn = LocalDateTime.now()))
+            } else{
+                val existingEnrollment = enrollmentRepository.getAllByUserId(user!!.id!!)?.firstOrNull{it.libraryId == enrollment.libraryId}
+                if(existingEnrollment != null) {
+                    existingEnrollment.mobile = enrollment.mobile
+                    existingEnrollment.endDate = enrollment.endDate
+                    return
+                }
             }
             enrollment.userId = user.id
         }
         // TODO add entry in payment table
 
         enrollmentRepository.save(enrollment)
+    }
+
+    private fun isValidMail(email: String): Boolean {
+        val EMAIL_STRING = ("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+        return Pattern.compile(EMAIL_STRING).matcher(email).matches()
     }
 
 }

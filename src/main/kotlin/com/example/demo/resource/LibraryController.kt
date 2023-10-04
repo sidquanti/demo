@@ -2,10 +2,12 @@ package com.example.demo.resource
 
 import com.example.demo.auth.annotation.Secured
 import com.example.demo.data.Library
+import com.example.demo.exception.RequestException
 import com.example.demo.service.LibraryService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import java.util.regex.Pattern
 
 @RestController
 @RequestMapping("/library")
@@ -54,7 +56,21 @@ class LibraryController {
     fun createLibrary(@RequestBody library: Library,
                       @RequestAttribute("email") email : String) {
         log.info("createLibrary called")
+        if(!library.email.isNullOrEmpty() && !isValidMail(library.email!!)) throw RequestException("Email id not valid ${library.email}")
+        if(!library.mobile.isNullOrEmpty() && !isValidMobile(library.mobile!!)) throw RequestException("Mobile no. is not valid ${library.mobile}")
+
         libraryService.createLibrary(library, email)
+    }
+
+    private fun isValidMail(email: String): Boolean {
+        val EMAIL_STRING = ("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+        return Pattern.compile(EMAIL_STRING).matcher(email).matches()
+    }
+
+    private fun isValidMobile(phone: String): Boolean {
+        val pattern = "^[0-9]{10}$"
+        return phone.matches(Regex(pattern))
     }
 
 }
